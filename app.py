@@ -97,14 +97,14 @@ def agrupar_pago(pago):
 # ------------------------------
 st.set_page_config(page_title="Prototipo Multimodelo", page_icon="🎓", layout="centered")
 
-st.markdown("<h1 style='text-align:center; color:#d62828;'>🎯 Prototipo de Predicciones</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align:center; color:#d62828;'>Prototipo de Predicción de matricula</h1>", unsafe_allow_html=True)
 st.markdown("<h3 style='text-align:center; color:#003049;'>Aspirantes a Programas Académicos</h3>", unsafe_allow_html=True)
 st.write("Selecciona el programa y completa los datos del aspirante para obtener la predicción.")
 
 # ------------------------------
 # Selección del programa
 # ------------------------------
-programa = st.selectbox("🏫 Programa académico", list(modelos_paths.keys()))
+programa = st.selectbox("Programa académico", list(modelos_paths.keys()))
 
 modelo = joblib.load(modelos_paths[programa]["modelo"])
 ohe_cargado = joblib.load(modelos_paths[programa]["ohe"])
@@ -181,7 +181,7 @@ if st.button("🔮 Predecir"):
         pred = modelo.predict(df_final)[0]
         prob = modelo.predict_proba(df_final)[0][1]
 
-        st.markdown("## 📌 Resultado de la predicción")
+        st.markdown("## Resultado de la predicción")
 
         col1, col2 = st.columns([1,2])
 

@@ -183,7 +183,7 @@ if st.button("🔮 Predecir"):
 
         st.markdown("## Resultado de la predicción")
 
-        col1, col2 = st.columns(2)
+        col1, col2 = st.columns([1, 2])
 
         with col1:
             st.metric(label="Clase predicha", value="✅ Matrícula" if pred==1 else "❌ Admisión")
@@ -193,15 +193,15 @@ if st.button("🔮 Predecir"):
             st.write(f"**Probabilidad de matrícula:** {prob:.2f}")
 
         # Gráfico circular compacto
-        fig, ax = plt.subplots(figsize=(2.5, 2.5))  # más pequeño
+        fig, ax = plt.subplots(figsize=(2, 2))  # más pequeño
         wedges, texts, autotexts = ax.pie(
             [prob, 1 - prob],
             labels=["Matrícula", "Admisión"],
             autopct="%1.1f%%",
             colors=["#2a9d8f", "#e76f51"],
-            textprops={'fontsize': 8}  # textos más pequeños
+            textprops={'fontsize': 6}  # textos más pequeños
         )
-        ax.set_title("Distribución de probabilidad", fontsize=10)
+        ax.set_title("Distribución de probabilidad", fontsize=6)
         st.pyplot(fig)
         
         # Explicación textual 

@@ -197,10 +197,13 @@ if st.button("🔮 Predecir"):
         ax.set_title("Distribución de probabilidad")
         st.pyplot(fig)
 
-    # Explicación textual 
-    if prob >= 0.7: st.success("El modelo estima una **alta probabilidad** de matrícula.") 
-        elif prob >= 0.5: st.warning("El modelo estima una **Probabilidad intermedia**, recomendable dar seguimiento al aspirante.") 
-            else: st.error("El modelo estima una **Baja probabilidad de matrícula**, requiere estrategias adicionales de retención.")
+        # Explicación textual 
+        if prob >= 0.7: 
+            st.success("El modelo estima una **alta probabilidad** de matrícula.") 
+        elif prob >= 0.5: 
+            st.warning("El modelo estima una **Probabilidad intermedia**, recomendable dar seguimiento al aspirante.") 
+        else: 
+            st.error("El modelo estima una **Baja probabilidad de matrícula**, requiere estrategias adicionales de retención.")
 
     except Exception as e:
         st.error(f"Error en la predicción: {e}")

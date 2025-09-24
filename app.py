@@ -27,7 +27,7 @@ modelos_paths = {
     },
     "Derecho": {
         "modelo": "Derecho_pipeline_final.pkl",
-        "ohe": "derecho_one_hot_encoder.pkl"
+        "ohe": "Derecho_one_hot_encoder.pkl"
     },
     "Comercio": {
         "modelo": "/content/drive/MyDrive/modelos/comercio_pipeline.pkl",

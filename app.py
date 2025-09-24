@@ -194,7 +194,7 @@ if st.button("🔮 Predecir"):
 
         fig, ax = plt.subplots(figsize=(3, 3))
         ax.pie([prob, 1-prob], labels=["Matrícula", "Admisión"], autopct="%1.1f%%", colors=["#2a9d8f", "#e76f51"])
-        ax.set_title("Distribución de probabilidad")
+        ax.set_title("Distribución de probabilidad", fontsize=10)
         st.pyplot(fig)
 
         # Explicación textual 

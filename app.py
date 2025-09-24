@@ -18,8 +18,8 @@ import os
 # ------------------------------
 modelos_paths = {
     "Administración": {
-        "modelo": "/content/drive/MyDrive/modelos/admin_pipeline.pkl",
-        "ohe": "/content/drive/MyDrive/modelos/admin_ohe.pkl"
+        "modelo": "admin_pipeline.pkl",
+        "ohe": "admin_ohe.pkl"
     },
     "Contaduría": {
         "modelo": "Contaduria_pipeline_final.pkl",
@@ -30,16 +30,16 @@ modelos_paths = {
         "ohe": "Derecho_one_hot_encoder.pkl"
     },
     "Comercio": {
-        "modelo": "/content/drive/MyDrive/modelos/comercio_pipeline.pkl",
-        "ohe": "/content/drive/MyDrive/modelos/comercio_ohe.pkl"
+        "modelo": "comercio_pipeline.pkl",
+        "ohe": "comercio_ohe.pkl"
     },
     "Comunicación Social": {
-        "modelo": "/content/drive/MyDrive/modelos/comunicacion_pipeline.pkl",
-        "ohe": "/content/drive/MyDrive/modelos/comunicacion_ohe.pkl"
+        "modelo": "comunicacion_pipeline.pkl",
+        "ohe": "comunicacion_ohe.pkl"
     },
     "Psicología": {
-        "modelo": "/content/drive/MyDrive/modelos/psico_pipeline.pkl",
-        "ohe": "/content/drive/MyDrive/modelos/psico_ohe.pkl"
+        "modelo": "psico_pipeline.pkl",
+        "ohe": "psico_ohe.pkl"
     }
 }
 

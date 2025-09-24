@@ -183,7 +183,7 @@ if st.button("🔮 Predecir"):
 
         st.markdown("## Resultado de la predicción")
 
-        col1, col2 = st.columns([1,2])
+        col1, col2 = st.columns(2)
 
         with col1:
             st.metric(label="Clase predicha", value="✅ Matrícula" if pred==1 else "❌ Admisión")

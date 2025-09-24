@@ -192,14 +192,6 @@ if st.button("🔮 Predecir"):
             st.progress(int(prob*100))
             st.write(f"**Probabilidad de matrícula:** {prob:.2f}")
 
-        # Explicación textual 
-        if prob >= 0.7: 
-            st.success("El modelo estima una **alta probabilidad** de matrícula.") 
-         elif prob >= 0.5: 
-            st.warning("El modelo estima una **Probabilidad intermedia**, recomendable dar seguimiento al aspirante.") 
-        else: 
-            st.error("El modelo estima una **Baja probabilidad de matrícula**, requiere estrategias adicionales de retención.")
-
         # Gráfico circular compacto
         fig, ax = plt.subplots(figsize=(2.5, 2.5))  # más pequeño
         wedges, texts, autotexts = ax.pie(

@@ -26,8 +26,8 @@ modelos_paths = {
         "ohe": "Contaduria_one_hot_encoder.pkl"
     },
     "Derecho": {
-        "modelo": "/content/drive/MyDrive/modelos/derecho_pipeline.pkl",
-        "ohe": "/content/drive/MyDrive/modelos/derecho_ohe.pkl"
+        "modelo": "derecho_pipeline_final.pkl",
+        "ohe": "derecho_one_hot_encoder.pkl"
     },
     "Comercio": {
         "modelo": "/content/drive/MyDrive/modelos/comercio_pipeline.pkl",

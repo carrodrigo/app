@@ -26,7 +26,7 @@ modelos_paths = {
         "ohe": "Contaduria_one_hot_encoder.pkl"
     },
     "Derecho": {
-        "modelo": "derecho_pipeline_final.pkl",
+        "modelo": "Derecho_pipeline_final.pkl",
         "ohe": "derecho_one_hot_encoder.pkl"
     },
     "Comercio": {

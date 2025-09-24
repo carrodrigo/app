@@ -187,23 +187,31 @@ if st.button("🔮 Predecir"):
 
         with col1:
             st.metric(label="Clase predicha", value="✅ Matrícula" if pred==1 else "❌ Admisión")
+            
+            # Explicación textual 
+            if prob >= 0.7: 
+                st.success("El modelo estima una **alta probabilidad** de matrícula.") 
+            elif prob >= 0.5: 
+                st.warning("El modelo estima una **Probabilidad intermedia**, recomendable dar seguimiento al aspirante.") 
+            else: 
+                st.error("El modelo estima una **Baja probabilidad de matrícula**, requiere estrategias adicionales de retención.")
+
+    
 
         with col2:
             st.progress(int(prob*100))
             st.write(f"**Probabilidad de matrícula:** {prob:.2f}")
 
-        fig, ax = plt.subplots(figsize=(2, 2))
-        ax.pie([prob, 1-prob], labels=["Matrícula", "Admisión"], autopct="%1.1f%%", colors=["#2a9d8f", "#e76f51"])
-        ax.set_title("Distribución de probabilidad", fontsize=8)
+        # Gráfico circular compacto
+        fig, ax = plt.subplots(figsize=(2.5, 2.5))  # más pequeño
+        wedges, texts, autotexts = ax.pie(
+            [prob, 1 - prob],
+            labels=["Matrícula", "Admisión"],
+            autopct="%1.1f%%",
+            colors=["#2a9d8f", "#e76f51"],
+            textprops={'fontsize': 8}  # textos más pequeños
+        )
+        ax.set_title("Distribución de probabilidad", fontsize=10)
         st.pyplot(fig)
-
-        # Explicación textual 
-        if prob >= 0.7: 
-            st.success("El modelo estima una **alta probabilidad** de matrícula.") 
-        elif prob >= 0.5: 
-            st.warning("El modelo estima una **Probabilidad intermedia**, recomendable dar seguimiento al aspirante.") 
-        else: 
-            st.error("El modelo estima una **Baja probabilidad de matrícula**, requiere estrategias adicionales de retención.")
-
     except Exception as e:
         st.error(f"Error en la predicción: {e}")

@@ -192,7 +192,7 @@ if st.button("🔮 Predecir"):
             st.progress(int(prob*100))
             st.write(f"**Probabilidad de matrícula:** {prob:.2f}")
 
-        fig, ax = plt.subplots()
+        fig, ax = plt.subplots(figsize=(3, 3))
         ax.pie([prob, 1-prob], labels=["Matrícula", "Admisión"], autopct="%1.1f%%", colors=["#2a9d8f", "#e76f51"])
         ax.set_title("Distribución de probabilidad")
         st.pyplot(fig)

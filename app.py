@@ -107,8 +107,6 @@ with col1:
     matematicas = st.slider("📘 Puntaje Matemáticas", 0, 100, 60)
     ciencias = st.slider("🔬 Puntaje Ciencias", 0, 100, 50)
     ingles = st.slider("🇬🇧 Puntaje Inglés", 0, 100, 60)
-
-with col2:
     lectura = st.slider("📖 Puntaje Lectura Crítica", 0, 100, 55)
     sociales = st.slider("🌍 Puntaje Sociales", 0, 100, 70)
     estrato = st.selectbox("🏠 Estrato", [1, 2, 3, 4, 5, 6])

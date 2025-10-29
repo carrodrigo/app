@@ -9,30 +9,12 @@ import os
 # Diccionario de modelos y OHE por programa
 # ------------------------------
 modelos_paths = {
-    "Administración": {
-        "modelo": "admin_pipeline.pkl",
-        "ohe": "admin_ohe.pkl"
-    },
-    "Contaduría": {
-        "modelo": "Contaduria_pipeline_final.pkl",
-        "ohe": "Contaduria_one_hot_encoder.pkl"
-    },
-    "Derecho": {
-        "modelo": "Derecho_pipeline_final.pkl",
-        "ohe": "Derecho_one_hot_encoder.pkl"
-    },
-    "Comercio": {
-        "modelo": "comercio_pipeline.pkl",
-        "ohe": "comercio_ohe.pkl"
-    },
-    "Comunicación Social": {
-        "modelo": "comunicacion_pipeline.pkl",
-        "ohe": "comunicacion_ohe.pkl"
-    },
-    "Psicología": {
-        "modelo": "psico_pipeline.pkl",
-        "ohe": "psico_ohe.pkl"
-    }
+    "Administración": {"modelo": "admin_pipeline.pkl", "ohe": "admin_ohe.pkl"},
+    "Contaduría": {"modelo": "Contaduria_pipeline_final.pkl", "ohe": "Contaduria_one_hot_encoder.pkl"},
+    "Derecho": {"modelo": "Derecho_pipeline_final.pkl", "ohe": "Derecho_one_hot_encoder.pkl"},
+    "Comercio": {"modelo": "comercio_pipeline.pkl", "ohe": "comercio_ohe.pkl"},
+    "Comunicación Social": {"modelo": "comunicacion_pipeline.pkl", "ohe": "comunicacion_ohe.pkl"},
+    "Psicología": {"modelo": "psico_pipeline.pkl", "ohe": "psico_ohe.pkl"}
 }
 
 # ------------------------------
@@ -40,43 +22,25 @@ modelos_paths = {
 # ------------------------------
 def agrupar_fuente(fuente):
     grupos = {
-        'Medios_Digitales_Online': [
-            'Página Web', 'FACEBOOK', 'Link', 'Correo Directo',
-            'Pantalla Publicitaria Led', 'Banner','Instagram'
-        ],
-        'Redes_Personales_Boca_Boca': [
-            'Amigos', 'Familiares', 'Estudiante', 'Docente',
-            'Egresado', 'Funcionario', 'Referido Universidad Cooperat', 'Embajador Corpaeda'
-        ],
-        'Eventos_Ferias': [
-            'Feria Universitaria', 'Visita a Colegi', 'Guías Orientación Profesional'
-        ],
-        'Medios_Tradicionales_Masivos': [
-            'Prensa', 'Televisión', 'Radio', 'Valla', 'Pasacalle',
-            'Paradero Transporte', 'Transporte Masivo', 'Directorio Telefónico'
-        ]
+        'Medios_Digitales_Online': ['Página Web', 'FACEBOOK', 'Link', 'Correo Directo',
+                                    'Pantalla Publicitaria Led', 'Banner', 'Instagram'],
+        'Redes_Personales_Boca_Boca': ['Amigos', 'Familiares', 'Estudiante', 'Docente',
+                                       'Egresado', 'Funcionario', 'Referido Universidad Cooperat', 'Embajador Corpaeda'],
+        'Eventos_Ferias': ['Feria Universitaria', 'Visita a Colegi', 'Guías Orientación Profesional'],
+        'Medios_Tradicionales_Masivos': ['Prensa', 'Televisión', 'Radio', 'Valla', 'Pasacalle',
+                                         'Paradero Transporte', 'Transporte Masivo', 'Directorio Telefónico']
     }
     for grupo, valores in grupos.items():
         if fuente in valores:
             return grupo
     return "Otro"
 
+
 def agrupar_pago(pago):
     grupos = {
-        'Credito_Financ_Externa': [
-            'Crédito ICETEX',
-            'Financ por Banco o Cooperativa',
-            'Crédito Coop. Comuna'
-        ],
-        'Pago_Directo_Propio': [
-            'Contado / Efectivo',
-            'Tarjeta de Crédito',
-            'Fondo de Cesantias'
-        ],
-        'Apoyo_Beneficio': [
-            'Beca',
-            'Subsidio Empresarial'
-        ],
+        'Credito_Financ_Externa': ['Crédito ICETEX', 'Financ por Banco o Cooperativa', 'Crédito Coop. Comuna'],
+        'Pago_Directo_Propio': ['Contado / Efectivo', 'Tarjeta de Crédito', 'Fondo de Cesantias'],
+        'Apoyo_Beneficio': ['Beca', 'Subsidio Empresarial'],
         "Otro": ["Otro"]
     }
     for grupo, valores in grupos.items():
@@ -105,8 +69,9 @@ ohe_cargado = joblib.load(modelos_paths[programa]["ohe"])
 # ------------------------------
 # Entrada de datos
 # ------------------------------
-col1, col2 = st.columns(2)
+col1, col2 = st.columns([1, 2])
 
+# Columna izquierda: sliders
 with col1:
     matematicas = st.slider("Puntaje Matemáticas", 0, 100, 60)
     ciencias = st.slider("Puntaje Ciencias", 0, 100, 50)
@@ -114,23 +79,29 @@ with col1:
     lectura = st.slider("Puntaje Lectura Crítica", 0, 100, 55)
     sociales = st.slider("Puntaje Sociales", 0, 100, 70)
 
+# Columna derecha: dos subcolumnas
 with col2:
-    estrato = st.selectbox("Estrato", [1, 2, 3, 4, 5, 6])
-    trabaja = st.selectbox("Trabaja Actualmente", ["Si", "No"])
-    edad = st.number_input("Edad de inscripción", min_value=15, max_value=70, value=18)
-    distancia = st.number_input("Distancia a la universidad (km)", min_value=0, max_value=200, value=10)
-    posible_pago_raw = st.selectbox("Posible forma de pago", [
-        "Contado / Efectivo", "Tarjeta de Crédito", "Fondo de Cesantias",
-        "Crédito ICETEX", "Financ por Banco o Cooperativa",
-        "Crédito Coop. Comuna", "Beca", "Subsidio Empresarial", "Otro"
-    ])
-    fuente_raw = st.selectbox("Fuente de referencia", [
-        "Página Web", "FACEBOOK", "Correo Directo", "Banner", "Instagram",
-        "Amigos", "Familiares", "Docente", "Egresado", "Feria Universitaria",
-        "Televisión", "Radio", "Otro"
-    ])
-    anio = st.number_input("Año de inscripción", min_value=2020, max_value=2030, value=2025)
-    semestre = st.selectbox("Semestre", ["01", "02"])
+    col2a, col2b = st.columns(2)
+
+    with col2a:
+        estrato = st.selectbox("Estrato", [1, 2, 3, 4, 5, 6])
+        trabaja = st.selectbox("Trabaja Actualmente", ["Si", "No"])
+        edad = st.number_input("Edad de inscripción", min_value=15, max_value=70, value=18)
+        distancia = st.number_input("Distancia a la universidad (km)", min_value=0, max_value=200, value=10)
+
+    with col2b:
+        posible_pago_raw = st.selectbox("Posible forma de pago", [
+            "Contado / Efectivo", "Tarjeta de Crédito", "Fondo de Cesantias",
+            "Crédito ICETEX", "Financ por Banco o Cooperativa",
+            "Crédito Coop. Comuna", "Beca", "Subsidio Empresarial", "Otro"
+        ])
+        fuente_raw = st.selectbox("Fuente de referencia", [
+            "Página Web", "FACEBOOK", "Correo Directo", "Banner", "Instagram",
+            "Amigos", "Familiares", "Docente", "Egresado", "Feria Universitaria",
+            "Televisión", "Radio", "Otro"
+        ])
+        anio = st.number_input("Año de inscripción", min_value=2020, max_value=2030, value=2025)
+        semestre = st.selectbox("Semestre", ["01", "02"])
 
 # ------------------------------
 # Preprocesamiento
@@ -177,12 +148,12 @@ if st.button("Predecir"):
         st.markdown("---")
         st.markdown("### Resultado de la predicción")
 
-        col1, col2 = st.columns([1, 2])
+        colr1, colr2 = st.columns([1, 2])
 
-        with col1:
+        with colr1:
             st.markdown(f"**Clase predicha:** {'✅ Matrícula' if pred == 1 else '❌ Admisión'}")
 
-        with col2:
+        with colr2:
             st.write(f"**Puntuación:** {score:.2f}")
 
     except Exception as e:

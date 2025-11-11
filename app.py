@@ -4,9 +4,7 @@ import pandas as pd
 import joblib
 import numpy as np
 import os
-import torch.nn as nn
-from tab_transformer_pytorch import TabTransformer
-import torch
+from model_tabtransformer import TabTransformerBinary
 # ------------------------------
 # Diccionario de modelos y OHE por programa
 # ------------------------------

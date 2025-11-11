@@ -9,10 +9,10 @@ import os
 # Diccionario de modelos y OHE por programa
 # ------------------------------
 modelos_paths = {
-    "Administración": {"modelo": "admin_pipeline.pkl", "ohe": "admin_ohe.pkl"},
+    "Administración": {"modelo": "admin_pipeline (1).pkl", "ohe": "admin_orde.pkl"},
     "Contaduría": {"modelo": "Contaduria_pipeline_final.pkl", "ohe": "Contaduria_one_hot_encoder.pkl"},
     "Derecho": {"modelo": "Derecho_pipeline_final.pkl", "ohe": "Derecho_one_hot_encoder.pkl"},
-    "Comercio": {"modelo": "comercio_pipeline (1).pkl", "ohe": "orde.pkl"},
+    "Comercio": {"modelo": "comercio_pipeline (1).pkl", "ohe": "comercio_orde.pkl"},
     "Comunicación Social": {"modelo": "comunicacion_pipeline.pkl", "ohe": "comunicacion_ohe.pkl"},
     "Psicología": {"modelo": "psico_pipeline.pkl", "ohe": "psico_ohe.pkl"}
 }

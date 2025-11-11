@@ -7,3 +7,7 @@ scikit-learn
 imblearn
 seaborn
 xgboost
+transformers
+tab_transformer_pytorch
+torch
+

@@ -168,7 +168,7 @@ if st.button("Predecir"):
             modelo.eval()
             with torch.no_grad():
                 # Preprocesar la entrada (según columnas del entrenamiento)
-                categorical_tensor, continuous_tensor = preprocess_input(form_data, encoder_categoricas, scaler_numericas)
+                categorical_tensor, continuous_tensor = preprocess_input(df_nuevo, categorical_cols, continuous_cols)
                 
                 # Realizar la predicción
                 output = modelo(categorical_tensor, continuous_tensor)

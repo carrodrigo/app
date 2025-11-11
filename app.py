@@ -142,41 +142,43 @@ if hasattr(modelo, "feature_names_in_"):
 if st.button("Predecir"):
     try:
         if programa == "Administración":
-            # Uso del modelo TabTransformerBinary
-            import torch
-            import numpy as np
             esc_cargado = joblib.load(modelos_paths[programa]["scaler"])
-            
-            def preprocess_input(form_data, encoder_categoricas, scaler_numericas):
-                # Columnas usadas en el entrenamiento
-                categorical_cols = ['Trabaja Actualmente', 'Fuente Referencia', 'Posible Forma de Pago', 'Semestre']
-                continuous_cols = ['Periodo', 'Edad inscripcion', 'Ciencias', 'Inglés',
-                                   'Lectura Crítica', 'Matematicas', 'Sociales', 'Distancia a Universidad (km)','Año', 'Estrato']
-            
-                # --- Codificar categóricas ---
-                categorical_values = [[form_data[col] for col in categorical_cols]]
-                categorical_encoded = encoder_categoricas.transform(categorical_values)
-                categorical_encoded = np.array(categorical_encoded).reshape(1, -1)
-            
-                # --- Escalar numéricas ---
-                continuous_values = np.array([[form_data[col] for col in continuous_cols]], dtype=float)
-                continuous_scaled = scaler_numericas.transform(continuous_values)
-                continuous_scaled = np.array(continuous_scaled).reshape(1, -1)
-            
-                # --- Convertir a tensores ---
-                categorical_tensor = torch.tensor(categorical_encoded, dtype=torch.long)
-                continuous_tensor = torch.tensor(continuous_scaled, dtype=torch.float)
-            
-                return categorical_tensor, continuous_tensor
 
+            # ------------------------------
+            # Columnas esperadas (entrenamiento)
+            # ------------------------------
+            categorical_cols = ['Trabaja Actualmente', 'Fuente Referencia', 'Posible Forma de Pago', 'Semestre']
+            continuous_cols = ['Edad inscripcion', 'Estrato', 'Ciencias', 'Inglés',
+                               'Lectura Crítica', 'Matematicas', 'Sociales', 'Distancia a Universidad (km)', 'Año']
+
+            # ------------------------------
+            # Extraer valores
+            # ------------------------------
+            cat_values = [[df_nuevo[col].iloc[0] for col in categorical_cols]]
+            cont_values = np.array([[df_nuevo[col].iloc[0] for col in continuous_cols]], dtype=float)
+
+            # ------------------------------
+            # Codificar categóricas (OrdinalEncoder)
+            # ------------------------------
+            cat_encoded = ohe_cargado.transform(cat_values).astype(int)  
+            cat_tensor = torch.tensor(cat_encoded, dtype=torch.long)
+
+            # ------------------------------
+            # Escalar numéricas
+            # ------------------------------
+            cont_scaled = esc_cargado.transform(cont_values)
+            cont_tensor = torch.tensor(cont_scaled, dtype=torch.float)
+
+            # ------------------------------
+            # Predicción con TabTransformerBinary
+            # ------------------------------
             modelo.eval()
             with torch.no_grad():
-                cat_tensor, cont_tensor = preprocess_input(df_nuevo, ohe_cargado, esc_cargado)
                 outputs = modelo(cat_tensor, cont_tensor)
                 logits = outputs["logits"]
-                probs = torch.softmax(logits, dim=1).cpu().numpy().flatten()
-                pred = int(np.argmax(probs))
-                score = float(probs[1])
+                probs = torch.sigmoid(logits).cpu().numpy().flatten()
+                pred = int(probs[0] >= 0.5)
+                score = float(probs[0])
 
         else:
             # Modelos tradicionales

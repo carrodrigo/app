@@ -146,28 +146,34 @@ if st.button("Predecir"):
             import torch
             import numpy as np
             esc_cargado = joblib.load(modelos_paths[programa]["scaler"])
-            # Orden y nombres de las columnas como en el entrenamiento
-            categorical_cols = ['Trabaja Actualmente', 'Fuente Referencia', 'Posible Forma de Pago', 'Semestre']
-            continuous_cols = ['Periodo', 'Edad inscripcion', 'Ciencias', 'Inglés', 'Lectura Crítica', 'Matematicas', 'Sociales', 'Distancia a Universidad (km)','Estrato']
             
             def preprocess_input(form_data, encoder_categoricas, scaler_numericas):
-                # --- Categóricas ---
-                categorical_values = [form_data[col] for col in categorical_cols]
-                categorical_encoded = ohe_cargado.transform([categorical_values])[0]
+                # Columnas usadas en el entrenamiento
+                categorical_cols = ['Trabaja Actualmente', 'Fuente Referencia', 'Posible Forma de Pago', 'Semestre']
+                continuous_cols = ['Periodo', 'Edad inscripcion', 'Estrato', 'Ciencias', 'Inglés',
+                                   'Lectura Crítica', 'Matematicas', 'Sociales', 'Distancia a Universidad (km)']
             
-                # --- Continuas ---
+                # --- Codificar categóricas ---
+                categorical_values = [[form_data[col] for col in categorical_cols]]
+                categorical_encoded = encoder_categoricas.transform(categorical_values)
+                categorical_encoded = np.array(categorical_encoded).reshape(1, -1)
+            
+                # --- Escalar numéricas ---
                 continuous_values = np.array([[form_data[col] for col in continuous_cols]], dtype=float)
-                continuous_scaled = esc_cargado.transform(continuous_values)[0]
+                continuous_scaled = scaler_numericas.transform(continuous_values)
+                continuous_scaled = np.array(continuous_scaled).reshape(1, -1)
             
-                # Convertir a tensores
-                categorical_tensor = torch.tensor([categorical_encoded], dtype=torch.long)
-                continuous_tensor = torch.tensor([continuous_scaled], dtype=torch.float)
+                # --- Convertir a tensores ---
+                categorical_tensor = torch.tensor(categorical_encoded, dtype=torch.long)
+                continuous_tensor = torch.tensor(continuous_scaled, dtype=torch.float)
+            
                 return categorical_tensor, continuous_tensor
+
             
             modelo.eval()
             with torch.no_grad():
                 # Preprocesar la entrada (según columnas del entrenamiento)
-                categorical_tensor, continuous_tensor = preprocess_input(df_nuevo, categorical_cols, continuous_cols)
+                categorical_tensor, continuous_tensor = preprocess_input(df_nuevo, ohe_cargado, esc_cargado)
                 
                 # Realizar la predicción
                 output = modelo(categorical_tensor, continuous_tensor)

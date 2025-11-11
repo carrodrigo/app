@@ -3,8 +3,10 @@ import streamlit as st
 import pandas as pd
 import joblib
 import numpy as np
+import torch
 import os
 from model_tabtransformer import TabTransformerBinary
+
 # ------------------------------
 # Diccionario de modelos y OHE por programa
 # ------------------------------
@@ -35,7 +37,6 @@ def agrupar_fuente(fuente):
             return grupo
     return "Otro"
 
-
 def agrupar_pago(pago):
     grupos = {
         'Credito_Financ_Externa': ['Crédito ICETEX', 'Financ por Banco o Cooperativa', 'Crédito Coop. Comuna'],
@@ -47,7 +48,6 @@ def agrupar_pago(pago):
         if pago in valores:
             return grupo
     return "Otro"
-
 
 # ------------------------------
 # Configuración de la app
@@ -62,7 +62,6 @@ st.write("Selecciona el programa y completa los datos del aspirante para obtener
 # Selección del programa
 # ------------------------------
 programa = st.selectbox("Programa académico", list(modelos_paths.keys()))
-
 modelo = joblib.load(modelos_paths[programa]["modelo"])
 ohe_cargado = joblib.load(modelos_paths[programa]["ohe"])
 
@@ -142,17 +141,26 @@ if hasattr(modelo, "feature_names_in_"):
 # ------------------------------
 if st.button("Predecir"):
     try:
-        pred = modelo.predict(df_final)[0]
-        score = modelo.predict_proba(df_final)[0][1]
+        if programa == "Administración":
+            # Uso del modelo TabTransformerBinary
+            modelo.eval()
+            with torch.no_grad():
+                inputs = torch.tensor(df_final.values, dtype=torch.float32)
+                logits = modelo(inputs)
+                probs = torch.sigmoid(logits).cpu().numpy().flatten()
+                pred = int(probs[0] >= 0.5)
+                score = probs[0]
+        else:
+            # Modelos tradicionales
+            pred = modelo.predict(df_final)[0]
+            score = modelo.predict_proba(df_final)[0][1]
 
         st.markdown("---")
         st.markdown("### Resultado de la predicción")
 
         colr1, colr2 = st.columns([1, 2])
-
         with colr1:
             st.markdown(f"**Clase predicha:** {'✅ Matrícula' if pred == 1 else '❌ Admisión'}")
-
         with colr2:
             st.write(f"**Puntuación:** {score:.2f}")
 

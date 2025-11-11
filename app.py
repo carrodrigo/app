@@ -150,8 +150,8 @@ if st.button("Predecir"):
             def preprocess_input(form_data, encoder_categoricas, scaler_numericas):
                 # Columnas usadas en el entrenamiento
                 categorical_cols = ['Trabaja Actualmente', 'Fuente Referencia', 'Posible Forma de Pago', 'Semestre']
-                continuous_cols = ['Periodo', 'Edad inscripcion', 'Estrato', 'Ciencias', 'Inglés',
-                                   'Lectura Crítica', 'Matematicas', 'Sociales', 'Distancia a Universidad (km)']
+                continuous_cols = ['Periodo', 'Edad inscripcion', 'Ciencias', 'Inglés',
+                                   'Lectura Crítica', 'Matematicas', 'Sociales', 'Distancia a Universidad (km)','Año', 'Estrato']
             
                 # --- Codificar categóricas ---
                 categorical_values = [[form_data[col] for col in categorical_cols]]

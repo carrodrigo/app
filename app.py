@@ -11,7 +11,7 @@ from model_tabtransformer import TabTransformerBinary
 # Diccionario de modelos y OHE por programa
 # ------------------------------
 modelos_paths = {
-    "Administración": {"modelo": "admin_pipeline (1).pkl", "ohe": "admin_orde.pkl"},
+    "Administración": {"modelo": "admin_pipeline (1).pkl", "ohe": "admin_orde.pkl", "scaler": "admin_esc.pkl"},
     "Contaduría": {"modelo": "Contaduria_pipeline_final.pkl", "ohe": "Contaduria_one_hot_encoder.pkl"},
     "Derecho": {"modelo": "Derecho_pipeline_final.pkl", "ohe": "Derecho_one_hot_encoder.pkl"},
     "Comercio": {"modelo": "comercio_pipeline (1).pkl", "ohe": "comercio_orde.pkl"},
@@ -143,13 +143,42 @@ if st.button("Predecir"):
     try:
         if programa == "Administración":
             # Uso del modelo TabTransformerBinary
+            import torch
+            import numpy as np
+            esc_cargado = joblib.load(modelos_paths[programa]["escaler"])
+            # Orden y nombres de las columnas como en el entrenamiento
+            categorical_cols = ['Trabaja Actualmente', 'Fuente Referencia', 'Posible Forma de Pago', 'Semestre']
+            continuous_cols = ['Periodo', 'Edad inscripcion', 'Ciencias', 'Inglés', 'Lectura Crítica', 'Matematicas', 'Sociales', 'Distancia a Universidad (km)','Estrato']
+            
+            def preprocess_input(form_data, encoder_categoricas, scaler_numericas):
+                # --- Categóricas ---
+                categorical_values = [form_data[col] for col in categorical_cols]
+                categorical_encoded = ohe_cargado.transform([categorical_values])[0]
+            
+                # --- Continuas ---
+                continuous_values = np.array([[form_data[col] for col in continuous_cols]], dtype=float)
+                continuous_scaled = esc_cargado.transform(continuous_values)[0]
+            
+                # Convertir a tensores
+                categorical_tensor = torch.tensor([categorical_encoded], dtype=torch.long)
+                continuous_tensor = torch.tensor([continuous_scaled], dtype=torch.float)
+                return categorical_tensor, continuous_tensor
+            
+            categorical_tensor, continuous_tensor = preprocess_input(form_data, encoder_categoricas, scaler_numericas)
             modelo.eval()
             with torch.no_grad():
-                inputs = torch.tensor(df_final.values, dtype=torch.float32)
-                logits = modelo(inputs)
-                probs = torch.sigmoid(logits).cpu().numpy().flatten()
-                pred = int(probs[0] >= 0.5)
-                score = probs[0]
+                # Preprocesar la entrada (según columnas del entrenamiento)
+                categorical_tensor, continuous_tensor = preprocess_input(form_data, encoder_categoricas, scaler_numericas)
+                
+                # Realizar la predicción
+                output = modelo(categorical_tensor, continuous_tensor)
+                logits = output["logits"]
+                
+                # Calcular probabilidades y clase predicha
+                probs = torch.softmax(logits, dim=1).cpu().numpy().flatten()
+                pred = int(np.argmax(probs))
+                score = probs[pred]
+
         else:
             # Modelos tradicionales
             pred = modelo.predict(df_final)[0]

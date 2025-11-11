@@ -147,8 +147,8 @@ if st.button("Predecir"):
             # ------------------------------
             # Columnas esperadas (entrenamiento)
             # ------------------------------
-            categorical_cols = ['Trabaja Actualmente', 'Fuente Referencia', 'Posible Forma de Pago', 'Semestre']
-            continuous_cols = ['Edad inscripcion', 'Estrato', 'Ciencias', 'Inglés',
+            categorical_cols = ['Trabaja Actualmente', 'Estrato', 'Fuente Referencia', 'Posible Forma de Pago', 'Semestre']
+            continuous_cols = ['Edad inscripcion', 'Ciencias', 'Inglés',
                                'Lectura Crítica', 'Matematicas', 'Sociales', 'Distancia a Universidad (km)', 'Año']
 
             # ------------------------------

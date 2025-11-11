@@ -169,20 +169,14 @@ if st.button("Predecir"):
             
                 return categorical_tensor, continuous_tensor
 
-            
             modelo.eval()
             with torch.no_grad():
-                # Preprocesar la entrada (según columnas del entrenamiento)
-                categorical_tensor, continuous_tensor = preprocess_input(df_nuevo, ohe_cargado, esc_cargado)
-                
-                # Realizar la predicción
-                output = modelo(categorical_tensor, continuous_tensor)
-                logits = output["logits"]
-                
-                # Calcular probabilidades y clase predicha
+                cat_tensor, cont_tensor = preprocess_input(df_nuevo, ohe_cargado, esc_cargado)
+                outputs = modelo(cat_tensor, cont_tensor)
+                logits = outputs["logits"]
                 probs = torch.softmax(logits, dim=1).cpu().numpy().flatten()
                 pred = int(np.argmax(probs))
-                score = probs[pred]
+                score = float(probs[1])
 
         else:
             # Modelos tradicionales

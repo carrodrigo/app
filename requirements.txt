@@ -10,6 +10,8 @@ xgboost
 transformers
 tab_transformer_pytorch
 torch
+model_tabtransformer
+
 
 
 

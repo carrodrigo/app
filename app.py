@@ -145,7 +145,7 @@ if st.button("Predecir"):
             # Uso del modelo TabTransformerBinary
             import torch
             import numpy as np
-            esc_cargado = joblib.load(modelos_paths[programa]["escaler"])
+            esc_cargado = joblib.load(modelos_paths[programa]["scaler"])
             # Orden y nombres de las columnas como en el entrenamiento
             categorical_cols = ['Trabaja Actualmente', 'Fuente Referencia', 'Posible Forma de Pago', 'Semestre']
             continuous_cols = ['Periodo', 'Edad inscripcion', 'Ciencias', 'Inglés', 'Lectura Crítica', 'Matematicas', 'Sociales', 'Distancia a Universidad (km)','Estrato']

@@ -73,8 +73,7 @@ if "ohe" in modelos_paths[programa] and os.path.exists(modelos_paths[programa]["
         ohe_cargado = joblib.load(modelos_paths[programa]["ohe"])
     except Exception as e:
         st.warning(f"No se pudo cargar el codificador OHE para {programa}: {e}")
-else:
-    st.info(f"El modelo de {programa} no utiliza codificador externo (usa pipeline completo).")
+st.info(f"El modelo de {programa} ha sido seleccionado correctamente.")
 
 
 # ------------------------------

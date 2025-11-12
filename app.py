@@ -172,14 +172,14 @@ if st.button("Predecir"):
             for col in categorical_cols:
                 df_nuevo[col] = df_nuevo[col].astype(str)
             
-            datos_encoded = ohe_cargado.transform(df_nuevo[categorical_cols])
-            encoded_df = pd.DataFrame(datos_encoded, columns=ohe_cargado.get_feature_names_out())
+            #datos_encoded = ohe_cargado.transform(df_nuevo[categorical_cols])
+            #encoded_df = pd.DataFrame(datos_encoded, columns=ohe_cargado.get_feature_names_out())
             
-            df_final = pd.concat([
-                df_nuevo.drop(columns=categorical_cols).reset_index(drop=True),
-                encoded_df.reset_index(drop=True)
-            ], axis=1)
-            
+            #df_final = pd.concat([
+                #df_nuevo.drop(columns=categorical_cols).reset_index(drop=True),
+                #encoded_df.reset_index(drop=True)
+            #], axis=1)
+            df_final=df_nuevo
             if hasattr(modelo, "feature_names_in_"):
                 df_final = df_final.reindex(columns=modelo.feature_names_in_, fill_value=0)
                 

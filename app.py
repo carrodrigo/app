@@ -15,7 +15,7 @@ modelos_paths = {
     "Contaduría": {"modelo": "Contaduria_pipeline_final.pkl", "ohe": "Contaduria_one_hot_encoder.pkl"},
     "Derecho": {"modelo": "Derecho_pipeline_final.pkl", "ohe": "Derecho_one_hot_encoder.pkl"},
     "Comercio": {"modelo": "comercio_pipeline (1).pkl"},
-    "Comunicación Social": {"modelo": "comunicacion_pipeline.pkl", "ohe": "comunicacion_ohe.pkl"},
+    "Comunicación Social": {"modelo": "comunicacion_pipeline.pkl"},
     "Psicología": {"modelo": "psico_pipeline.pkl", "ohe": "psico_ohe.pkl"}
 }
 

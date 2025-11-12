@@ -14,7 +14,7 @@ modelos_paths = {
     "Administración": {"modelo": "admin_pipeline (1).pkl", "ohe": "admin_orde.pkl", "scaler": "admin_esc.pkl"},
     "Contaduría": {"modelo": "Contaduria_pipeline_final.pkl", "ohe": "Contaduria_one_hot_encoder.pkl"},
     "Derecho": {"modelo": "Derecho_pipeline_final.pkl", "ohe": "Derecho_one_hot_encoder.pkl"},
-    "Comercio": {"modelo": "comercio_pipeline (1).pkl", "ohe": "comercio_orde.pkl"},
+    "Comercio": {"modelo": "comercio_pipeline (1).pkl"},
     "Comunicación Social": {"modelo": "comunicacion_pipeline.pkl", "ohe": "comunicacion_ohe.pkl"},
     "Psicología": {"modelo": "psico_pipeline.pkl", "ohe": "psico_ohe.pkl"}
 }

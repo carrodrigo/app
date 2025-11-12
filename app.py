@@ -62,8 +62,20 @@ st.write("Selecciona el programa y completa los datos del aspirante para obtener
 # Selección del programa
 # ------------------------------
 programa = st.selectbox("Programa académico", list(modelos_paths.keys()))
+
+# Cargar el modelo obligatorio
 modelo = joblib.load(modelos_paths[programa]["modelo"])
-ohe_cargado = joblib.load(modelos_paths[programa]["ohe"])
+
+# Cargar el codificador si existe
+ohe_cargado = None
+if "ohe" in modelos_paths[programa] and os.path.exists(modelos_paths[programa]["ohe"]):
+    try:
+        ohe_cargado = joblib.load(modelos_paths[programa]["ohe"])
+    except Exception as e:
+        st.warning(f"No se pudo cargar el codificador OHE para {programa}: {e}")
+else:
+    st.info(f"El modelo de {programa} no utiliza codificador externo (usa pipeline completo).")
+
 
 # ------------------------------
 # Entrada de datos
